@@ -88,4 +88,4 @@ Then, `<Feature />` should:
     Once your app is up and running, run `npm run build`, and then deploy your build folder to Netlify!
 
     You've now got a working app.
-  
+  # Art-Collector
