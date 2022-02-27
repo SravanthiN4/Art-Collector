@@ -10,8 +10,9 @@ import {
 } from '../api';
 
 const Search = (props) => {
-  // Make sure to destructure setIsLoading and setSearchResults from the props
 
+   // Make sure to destructure setIsLoading and setSearchResults from the props
+const {setSearchResults, setIsLoading} = props;
 
   /**
    * We are at the Search component, a child of app. This has a form, so we need to use useState for
@@ -24,7 +25,23 @@ const Search = (props) => {
    * classification, setClassification (default should be the string 'any')
    */
 
+  const [queryString, setQueryString] = useState("");
+  const inputHandler = (event) => {
+    setQueryString(event.target.value)
+  }
+ 
+  const [inputList, setInputList] = useState([]);
+  const classificationHandle = (event) => {
+    setInputList(event.target.value)
+  }
 
+  const [inputCenturyList, setInputCenturyList] = useState([]);
+  const centuryListHandle = (event) => {
+    setInputCenturyList(event.target.value)
+  }
+
+  const [classificationList, setClassificationList] = useState([]);
+  const [centuryList, setCenutryList] = useState([])
   /**
    * Inside of useEffect, use Promise.all([]) with fetchAllCenturies and fetchAllClassifications
    * 
@@ -32,8 +49,12 @@ const Search = (props) => {
    * 
    * Make sure to console.error on caught errors from the API methods.
    */
-  useEffect(() => {
+  useEffect(async () => {
+    const classificationListFromAPI = await fetchAllClassifications();
+    setClassificationList(classificationListFromAPI);
 
+    const centuryListFromAPI = await fetchAllCenturies();
+    setCenutryList(centuryListFromAPI);
   }, []);
 
   /**
@@ -54,6 +75,19 @@ const Search = (props) => {
    */
   return <form id="search" onSubmit={async (event) => {
     // write code here
+    event.preventDefault();
+    setIsLoading(true);
+    try{
+    const results = await fetchQueryResults({century:inputCenturyList, classification:inputList,queryString:queryString})
+    setSearchResults(results);
+    console.log(results);
+    } catch (error) {
+      console.error("keep trying");
+    } 
+    finally{
+    setIsLoading(false)
+    }
+
   }}>
     <fieldset>
       <label htmlFor="keywords">Query</label>
@@ -61,33 +95,40 @@ const Search = (props) => {
         id="keywords" 
         type="text" 
         placeholder="enter keywords..." 
-        value={/* this should be the query string */} 
-        onChange={/* this should update the value of the query string */}/>
+        value={queryString} 
+        onChange={inputHandler}/>
     </fieldset>
+
     <fieldset>
       <label htmlFor="select-classification">Classification <span className="classification-count">({ classificationList.length })</span></label>
       <select 
         name="classification"
         id="select-classification"
-        value={/* this should be the classification */} 
-        onChange={/* this should update the value of the classification */}>
+        value={inputList} 
+        onChange={classificationHandle}>
         <option value="any">Any</option>
-        {/* map over the classificationList, return an <option /> */}
+        {classificationList.map(
+          (listValue) => <option key = {listValue.id} value = {listValue.name}>{listValue.name}</option>
+        )}
       </select>
     </fieldset>
-    <fieldset>
-      <label htmlFor="select-century">Century <span className="century-count">({ centuryList.length })</span></label>
+
+    <fieldset>   
+    <label htmlFor="select-century">Century <span className="century-count">({ centuryList.length })</span></label>
       <select 
         name="century" 
         id="select-century"
-        value={/* this should be the century */} 
-        onChange={/* this should update the value of the century */}>
+        value={inputCenturyList} 
+        onChange={centuryListHandle}>
         <option value="any">Any</option>
-        {/* map over the centuryList, return an <option /> */}
+        {centuryList.map(
+          (listValue) => <option key = {listValue.id} value = {listValue.name}>{listValue.name}</option>
+        )}
       </select>
      </fieldset>
+
     <button>SEARCH</button>
-  </form>
+    </form>
 }
 
 export default Search;
