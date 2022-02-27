@@ -89,3 +89,4 @@ Then, `<Feature />` should:
 
     You've now got a working app.
   # Art-Collector
+# Art-Collector
