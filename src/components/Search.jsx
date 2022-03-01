@@ -25,16 +25,19 @@ const {setSearchResults, setIsLoading} = props;
    * classification, setClassification (default should be the string 'any')
    */
 
+  //defining the input text entered in the Query box
   const [queryString, setQueryString] = useState("");
   const inputHandler = (event) => {
     setQueryString(event.target.value)
   }
  
+  //defining the input list for getting dropdown for Classification
   const [inputList, setInputList] = useState([]);
   const classificationHandle = (event) => {
     setInputList(event.target.value)
   }
 
+  //defining the input list for getting dropdown for Century
   const [inputCenturyList, setInputCenturyList] = useState([]);
   const centuryListHandle = (event) => {
     setInputCenturyList(event.target.value)
@@ -80,7 +83,7 @@ const {setSearchResults, setIsLoading} = props;
     try{
     const results = await fetchQueryResults({century:inputCenturyList, classification:inputList,queryString:queryString})
     setSearchResults(results);
-    console.log(results);
+    //console.log(results);
     } catch (error) {
       console.error("keep trying");
     } 

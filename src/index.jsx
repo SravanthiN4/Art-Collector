@@ -28,7 +28,7 @@ function App() {
       <Search setIsLoading = {setIsLoading} setSearchResults = {setSearchResults} />
 
       {/* <Preview /> needs props for searchResults, setIsLoading and setSearchResults (clicking prev/next buttons), and setFeaturedResult (clicking a preview) */}
-      {/* <Preview /> */}
+      <Preview searchResults = {searchResults} setSearchResults = {setSearchResults} setIsLoading = {setIsLoading}  setFeaturedResult = {setFeaturedResult}/>
 
       {/* <Feature /> needs props for featuredResult, as well as setIsLoading and setSearchResults (clicking on searchable properties) */}
       {/* <Feature /> */}
