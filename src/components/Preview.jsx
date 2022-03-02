@@ -16,10 +16,10 @@ const Preview = (props) => {
    */
 
 	const { setSearchResults, setFeaturedResult, setIsLoading } = props;
-	const { info, record } = props.searchResults;
-	// console.log("prossearchresults----",props.searchResults)
-	// console.log("next",props.searchResults.info.next);
-	console.log('prev', props.searchResults.info.prev);
+	const { info, records } = props.searchResults;
+
+	//console.log('prev', props.searchResults.info.prev);
+  console.log(records);
 
 	/**
    * Don't touch this function, it's good to go.
@@ -63,22 +63,36 @@ const Preview = (props) => {
         onClick={() => handleClick(info.next)}>Next</button>
 			</header>
 			<section className="results">
-				{/* Here we should map over the records, and render something like this for each one:
-          <div  
-            key={ index }
-            className="object-preview"
-            onClick={(event) => {
-              // prevent the default
-              // set the featured result to be this record, using setFeaturedResult
-            }}>
-            { 
-              // if the record.primaryimageurl exists, show this: <img src={ record.primaryimageurl } alt={ record.description } />, otherwise show nothing 
-            }
-            {
-              // if the record.title exists, add this: <h3>{ record.title }</h3>, otherwise show this: <h3>MISSING INFO</h3>
-            }
-          </div>
-        */}
+        {/* {
+          records.map((record) => {
+            console.log(record.id);
+            console.log(record.primaryimageurl)
+            console.log(record.title)
+          })
+        } */}
+        {records.map((record) => {
+         return <div  
+          key={record.id}
+          className="object-preview"
+          onClick={(event) => {
+            event.preventDefault();
+            // set the featured result to be this record, using setFeaturedResult
+            setFeaturedResult(record)
+          }}>
+          { 
+            // if the record.primaryimageurl exists, show this: <img src={ record.primaryimageurl } alt={ record.description } />, otherwise show nothing 
+            (record.primaryimageurl !== "") ? <img src={ record.primaryimageurl } alt={ record.description } /> : null
+          }
+          {
+            // if the record.title exists, add this: <h3>{ record.title }</h3>, otherwise show this: <h3>MISSING INFO</h3>
+            (record.title !== "") ? <h3>{ record.title }</h3> : <h3>MISSING INFO</h3>
+          }
+        </div>
+    
+        }
+        )}
+          
+       
 			</section>
 		</aside>
 	);
