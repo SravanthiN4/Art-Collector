@@ -7,7 +7,7 @@ import React, { useState } from 'react';
 import { fetchQueryResultsFromURL } from '../api';
 
 const Preview = (props) => {
-	let currPage = 0;
+	
 	/**
    * Destructure setSearchResults, setFeaturedResult, and setIsLoading from props
    * and also destructure info and records from props.searchResults
@@ -85,7 +85,7 @@ const Preview = (props) => {
           }
           {
             // if the record.title exists, add this: <h3>{ record.title }</h3>, otherwise show this: <h3>MISSING INFO</h3>
-            (record.title !== "") ? <h3>{ record.title }</h3> : <h3>MISSING INFO</h3>
+            (record.title !== "") ? <h3>{ <a href="#">{record.title}</a> }</h3> : <h3>MISSING INFO</h3>
           }
         </div>
     

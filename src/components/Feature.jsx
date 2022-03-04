@@ -1,7 +1,7 @@
-import React, { Fragment } from "react";
+import React, { Fragment } from 'react';
 
 // Don't touch this import
-import { fetchQueryResultsFromTermAndValue } from "../api";
+import { fetchQueryResultsFromTermAndValue } from '../api';
 
 /**
  * We need a new component called Searchable which:
@@ -29,7 +29,37 @@ import { fetchQueryResultsFromTermAndValue } from "../api";
  * finally:
  *  - call setIsLoading, set it to false
  */
-const Searchable = (props) => {};
+const Searchable = (props) => {
+	//destructure the props that are passed in, specifically the searchTerm and searchValue, as well as setIsLoading and setSearchResults.
+	
+	const { searchTerm, searchValue, setIsLoading, setSearchResults } = props;
+	console.log("searchable",props)
+	return (
+		
+		<span className="content">
+			<a
+				href="#"
+				onClick={async (event) => {
+					event.preventDefault();
+					setIsLoading(true);
+
+					try {
+						const result = await fetchQueryResultsFromTermAndValue(searchTerm, searchValue);
+						console.log("result",result)
+						setSearchResults(result);
+					} catch (error) {
+						console.error(error);
+					} finally {
+						setIsLoading(false);
+					}
+				}}
+			>
+				{searchValue}
+			</a>
+		</span>
+	);
+
+};
 
 /**
  * We need a new component called Feature which looks like this when no featuredResult is passed in as a prop:
@@ -65,6 +95,49 @@ const Searchable = (props) => {};
  *
  * This component should be exported as default.
  */
-const Feature = (props) => {};
+const Feature = (props) => {
+
+	const { featuredResult } = props;
+	console.log("featured",props);
+	if(!featuredResult) {
+		return <main id="feature"></main>
+	}
+
+	return (
+
+			<main id="feature">
+				
+				<div className="object-feature">
+					<header>
+						<h3>{featuredResult.title}</h3>
+						<h4>{featuredResult.dated}</h4>
+					</header>
+					<section className="facts">
+						<span className="title">Culture</span>
+						<Searchable searchTerm = "content" searchValue = {featuredResult.culture}/>
+						<span className="title">Technique</span>
+						<Searchable searchTerm = "content" searchValue = {featuredResult.technique}/>
+						<span className='title'>Dimensions</span>
+						<span className='content'>{featuredResult.dimensions}</span>
+						<span className='title'>Department</span>
+						<span className='content'>{featuredResult.department}</span>
+						<span className='title'>Division</span>
+						<span className='content'>{featuredResult.division}</span>
+						<span className='title'>Credit</span>
+						<span className='content'>{featuredResult.creditline}</span>
+						<span className='title'>Contact</span>
+						<span className='content'> <a href='#'>{featuredResult.contact}</a></span>
+						<span className="title">Medium</span>
+						<Searchable searchTerm = "content" searchValue = {featuredResult.medium}/>
+						</section>
+					<section className="photos">
+
+						<img src="img" alt="alt_img" />
+					</section>
+				</div>
+			</main>
+		
+	);
+};
 
 export default Feature;
