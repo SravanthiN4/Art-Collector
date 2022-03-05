@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { Search } from '.';
 
 // Don't touch this import
 import { fetchQueryResultsFromTermAndValue } from '../api';
@@ -97,8 +98,9 @@ const Searchable = (props) => {
  */
 const Feature = (props) => {
 
-	const { featuredResult } = props;
+	const { featuredResult, setIsLoading, setSearchResults } = props;
 	console.log("featured",props);
+	
 	if(!featuredResult) {
 		return <main id="feature"></main>
 	}
@@ -114,11 +116,15 @@ const Feature = (props) => {
 					</header>
 					<section className="facts">
 						<span className="title">Culture</span>
-						<Searchable searchTerm = "content" searchValue = {featuredResult.culture}/>
+						<Searchable searchTerm = "culture" searchValue = {featuredResult.culture} setIsLoading = {setIsLoading} setSearchResults = {setSearchResults}/>
 						<span className="title">Technique</span>
-						<Searchable searchTerm = "content" searchValue = {featuredResult.technique}/>
+						<Searchable searchTerm = "technique" searchValue = {featuredResult.technique} setIsLoading = {setIsLoading} setSearchResults = {setSearchResults}/>
 						<span className='title'>Dimensions</span>
 						<span className='content'>{featuredResult.dimensions}</span>
+						<span className = 'title'>Person</span>
+						{featuredResult.people?featuredResult.people.map((person) =>(
+							<Searchable key = {person.personid} searchTerm = "person" searchValue ={person.name} setIsLoading = {setIsLoading} setSearchResults = {setSearchResults}/>
+						)) : null}
 						<span className='title'>Department</span>
 						<span className='content'>{featuredResult.department}</span>
 						<span className='title'>Division</span>
@@ -128,11 +134,13 @@ const Feature = (props) => {
 						<span className='title'>Contact</span>
 						<span className='content'> <a href='#'>{featuredResult.contact}</a></span>
 						<span className="title">Medium</span>
-						<Searchable searchTerm = "content" searchValue = {featuredResult.medium}/>
+						<Searchable searchTerm = "medium" searchValue = {featuredResult.medium} setIsLoading = {setIsLoading} setSearchResults = {setSearchResults}/>
 						</section>
 					<section className="photos">
-
-						<img src="img" alt="alt_img" />
+						{featuredResult.images?featuredResult.images.map((image) => (
+							<img key = {image.imageid} src={image.baseimageurl} alt="alt_img" />
+						)):null}
+						
 					</section>
 				</div>
 			</main>
