@@ -32,11 +32,10 @@ import { fetchQueryResultsFromTermAndValue } from '../api';
  */
 const Searchable = (props) => {
 	//destructure the props that are passed in, specifically the searchTerm and searchValue, as well as setIsLoading and setSearchResults.
-	
+
 	const { searchTerm, searchValue, setIsLoading, setSearchResults } = props;
-	console.log("searchable",props)
+	console.log('searchable', props);
 	return (
-		
 		<span className="content">
 			<a
 				href="#"
@@ -46,7 +45,7 @@ const Searchable = (props) => {
 
 					try {
 						const result = await fetchQueryResultsFromTermAndValue(searchTerm, searchValue);
-						console.log("result",result)
+						console.log('result', result);
 						setSearchResults(result);
 					} catch (error) {
 						console.error(error);
@@ -59,7 +58,6 @@ const Searchable = (props) => {
 			</a>
 		</span>
 	);
-
 };
 
 /**
@@ -97,54 +95,117 @@ const Searchable = (props) => {
  * This component should be exported as default.
  */
 const Feature = (props) => {
-
 	const { featuredResult, setIsLoading, setSearchResults } = props;
-	console.log("featured",props);
-	
-	if(!featuredResult) {
-		return <main id="feature"></main>
+	console.log('featured', props);
+
+	if (!featuredResult) {
+		return <main id="feature" />;
 	}
 
 	return (
+		<main id="feature">
+			<div className="object-feature">
+				<header>
+					<h3>{featuredResult.title}</h3>
+					<h4>{featuredResult.dated}</h4>
+				</header>
 
-			<main id="feature">
-				
-				<div className="object-feature">
-					<header>
-						<h3>{featuredResult.title}</h3>
-						<h4>{featuredResult.dated}</h4>
-					</header>
-					<section className="facts">
-						<span className="title">Culture</span>
-						<Searchable searchTerm = "culture" searchValue = {featuredResult.culture} setIsLoading = {setIsLoading} setSearchResults = {setSearchResults}/>
-						<span className="title">Technique</span>
-						<Searchable searchTerm = "technique" searchValue = {featuredResult.technique} setIsLoading = {setIsLoading} setSearchResults = {setSearchResults}/>
-						<span className='title'>Dimensions</span>
-						<span className='content'>{featuredResult.dimensions}</span>
-						<span className = 'title'>Person</span>
-						{featuredResult.people?featuredResult.people.map((person) =>(
-							<Searchable key = {person.personid} searchTerm = "person" searchValue ={person.name} setIsLoading = {setIsLoading} setSearchResults = {setSearchResults}/>
-						)) : null}
-						<span className='title'>Department</span>
-						<span className='content'>{featuredResult.department}</span>
-						<span className='title'>Division</span>
-						<span className='content'>{featuredResult.division}</span>
-						<span className='title'>Credit</span>
-						<span className='content'>{featuredResult.creditline}</span>
-						<span className='title'>Contact</span>
-						<span className='content'> <a href='#'>{featuredResult.contact}</a></span>
-						<span className="title">Medium</span>
-						<Searchable searchTerm = "medium" searchValue = {featuredResult.medium} setIsLoading = {setIsLoading} setSearchResults = {setSearchResults}/>
-						</section>
-					<section className="photos">
-						{featuredResult.images?featuredResult.images.map((image) => (
-							<img key = {image.imageid} src={image.baseimageurl} alt="alt_img" />
-						)):null}
-						
-					</section>
-				</div>
-			</main>
-		
+				<section className="facts">
+					{featuredResult.culture ? (
+						<React.Fragment>
+							<span className="title">Culture</span>
+							<Searchable
+								searchTerm="culture"
+								searchValue={featuredResult.culture}
+								setIsLoading={setIsLoading}
+								setSearchResults={setSearchResults}
+							/>
+						</React.Fragment>
+					) : null}
+
+					{featuredResult.technique ? (
+						<React.Fragment>
+							<span className="title">Technique</span>
+							<Searchable
+								searchTerm="technique"
+								searchValue={featuredResult.technique}
+								setIsLoading={setIsLoading}
+								setSearchResults={setSearchResults}
+							/>
+						</React.Fragment>
+					) : null}
+
+					{featuredResult.dimensions ? (
+						<React.Fragment>
+							<span className="title">Dimensions</span>
+							<span className="content">{featuredResult.dimensions}</span>
+						</React.Fragment>
+					) : null}
+
+					<span className="title">Person</span>
+					{featuredResult.people ? (
+						featuredResult.people.map((person) => (
+							<Searchable
+								key={person.personid}
+								searchTerm="person"
+								searchValue={person.name}
+								setIsLoading={setIsLoading}
+								setSearchResults={setSearchResults}
+							/>
+						))
+					) : null}
+
+					{featuredResult.department ? (
+						<React.Fragment>
+							<span className="title">Department</span>
+							<span className="content">{featuredResult.department}</span>
+						</React.Fragment>
+					) : null}
+
+					{featuredResult.division ? (
+						<React.Fragment>
+							<span className="title">Division</span>
+							<span className="content">{featuredResult.division}</span>
+						</React.Fragment>
+					) : null}
+
+					{featuredResult.creditline ? (
+						<React.Fragment>
+							<span className="title">Credit</span>
+							<span className="content">{featuredResult.creditline}</span>
+						</React.Fragment>
+					) : null}
+
+					{featuredResult.contact ? (
+						<React.Fragment>
+							<span className="title">Contact</span>
+							<span className="content">
+								<a href="#">{featuredResult.contact}</a>
+							</span>
+						</React.Fragment>
+					) : null}
+
+					{featuredResult.medium ? (
+						<React.Fragment>
+							<span className="title">Medium</span>
+							<Searchable
+								searchTerm="medium"
+								searchValue={featuredResult.medium}
+								setIsLoading={setIsLoading}
+								setSearchResults={setSearchResults}
+							/>
+						</React.Fragment>
+					) : null}
+				</section>
+				<section className="photos">
+					{featuredResult.images ? (
+						featuredResult.images.map((image) => (
+							<img key={image.imageid} src={image.baseimageurl} alt="alt_img" />
+						))
+					) : null}
+				</section>
+			</div>
+		</main>
 	);
 };
 
