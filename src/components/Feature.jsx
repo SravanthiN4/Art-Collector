@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Search } from '.';
+import { Search } from './Search';
 
 // Don't touch this import
 import { fetchQueryResultsFromTermAndValue } from '../api';
@@ -34,7 +34,7 @@ const Searchable = (props) => {
 	//destructure the props that are passed in, specifically the searchTerm and searchValue, as well as setIsLoading and setSearchResults.
 
 	const { searchTerm, searchValue, setIsLoading, setSearchResults } = props;
-	console.log('searchable', props);
+	
 	return (
 		<span className="content">
 			<a
@@ -134,6 +134,22 @@ const Feature = (props) => {
 							/>
 						</React.Fragment>
 					) : null}
+
+					
+					
+					{/* {featuredResult.people ? (
+						<React.Fragment>
+						<span className="title">Person</span>
+						{featuredResult.people.map((person) => (
+							<Searchable
+								key={person.personid}
+								searchTerm="person"
+								searchValue={person.name}
+								setIsLoading={setIsLoading}
+								setSearchResults={setSearchResults}
+							/>
+						))}
+						</React.Fragment>) : null} */}
 
 					{featuredResult.dimensions ? (
 						<React.Fragment>
